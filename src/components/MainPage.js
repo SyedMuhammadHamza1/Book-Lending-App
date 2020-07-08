@@ -4,18 +4,23 @@ import * as API from "../BooksAPI";
 class MainPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      bookData: [],
+    };
   }
   componentDidMount() {
     API.getAll()
       .then((success) => {
-        console.log("API Data", success);
+        this.setState((state) => {
+          return { bookData: success };
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   }
   render() {
+    console.log(this.state.bookData);
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -27,36 +32,48 @@ class MainPage extends Component {
               <h2 className="bookshelf-title">Currently Reading</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
-                  <li>
-                    <div className="book">
-                      <div className="book-top">
-                        <div
-                          className="book-cover"
-                          style={{
-                            width: 128,
-                            height: 193,
-                            backgroundImage:
-                              'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")',
-                          }}
-                        />
-                        <div className="book-shelf-changer">
-                          <select>
-                            <option value="move" disabled>
-                              Move to...
-                            </option>
-                            <option value="currentlyReading">
-                              Currently Reading
-                            </option>
-                            <option value="wantToRead">Want to Read</option>
-                            <option value="read">Read</option>
-                            <option value="none">None</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="book-title">To Kill a Mockingbird</div>
-                      <div className="book-authors">Harper Lee</div>
-                    </div>
-                  </li>
+                  {this.state.bookData.map((item, index) => {
+                    return (
+                      item.shelf == "currentlyReading" && (
+                        <li key={index}>
+                          <div className="book">
+                            <div className="book-top">
+                              <div
+                                className="book-cover"
+                                style={{
+                                  width: 128,
+                                  height: 193,
+                                  backgroundImage: `url(${
+                                    item.imageLinks.smallThumbnail
+                                  })`,
+                                }}
+                              />
+                              <div className="book-shelf-changer">
+                                <select>
+                                  <option value="move" disabled>
+                                    Move to...
+                                  </option>
+                                  <option value="currentlyReading">
+                                    Currently Reading
+                                  </option>
+                                  <option value="wantToRead">
+                                    Want to Read
+                                  </option>
+                                  <option value="read">Read</option>
+                                  <option value="none">None</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className="book-title">{item.title}</div>
+                            <div className="book-authors">
+                              {item.authors[index]}
+                            </div>
+                          </div>
+                        </li>
+                      )
+                    );
+                  })}
+
                   <li>
                     <div className="book">
                       <div className="book-top">
