@@ -1,6 +1,6 @@
 import React from "react";
 const BooksRendringComponent = (props) => {
-  const { heading, book, conditionalText } = props;
+  const { heading, book, conditionalText, updateFunction } = props;
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{heading}</h2>
@@ -23,7 +23,7 @@ const BooksRendringComponent = (props) => {
                         }}
                       />
                       <div className="book-shelf-changer">
-                        <select>
+                        <select onChange={(e) => updateFunction(item.id, e)}>
                           <option value="move" disabled>
                             Move to...
                           </option>
@@ -40,7 +40,7 @@ const BooksRendringComponent = (props) => {
                     <div className="book-authors">
                       {item.authors.map((author, index) => {
                         return (
-                          <label>
+                          <label key={index}>
                             {author} <br />
                           </label>
                         );

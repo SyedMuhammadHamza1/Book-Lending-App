@@ -20,6 +20,21 @@ class MainPage extends Component {
         console.log(err);
       });
   }
+  updateBookShelf = (bookId, e) => {
+    debugger;
+    let book = {
+      id: bookId,
+    };
+    API.update(book, e.target.value)
+      .then((success) => {
+        debugger;
+        console.log(success);
+      })
+      .catch((err) => {
+        debugger;
+        console.log(err);
+      });
+  };
   render() {
     console.log(this.state.bookData);
     return (
@@ -33,16 +48,19 @@ class MainPage extends Component {
               heading={"Currently Reading"}
               book={this.state.bookData}
               conditionalText={"currentlyReading"}
+              updateFunction={this.updateBookShelf}
             />
             <BooksRendringComponent
               heading={"Want To Read"}
               book={this.state.bookData}
               conditionalText={"wantToRead"}
+              updateFunction={this.updateBookShelf}
             />
             <BooksRendringComponent
               heading={"Read"}
               book={this.state.bookData}
               conditionalText={"read"}
+              updateFunction={this.updateBookShelf}
             />
           </div>
         </div>
