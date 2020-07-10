@@ -7,13 +7,25 @@ class MainPage extends Component {
     super(props);
     this.state = {
       bookData: [],
+      currentlyReading: [],
+      wantToRead: [],
+      read: [],
     };
   }
   componentDidMount() {
     API.getAll()
       .then((success) => {
+        let newArray = success.filter(
+          (item) => item.shelf === "currentlyReading"
+        );
+        let newArray2 = success.filter((item) => item.shelf === "wantToRead");
+        let newArray3 = success.filter((item) => item.shelf === "read");
         this.setState((state) => {
-          return { bookData: success };
+          return {
+            currentlyReading: newArray,
+            wantToRead: newArray2,
+            read: newArray3,
+          };
         });
       })
       .catch((err) => {
@@ -36,7 +48,6 @@ class MainPage extends Component {
       });
   };
   render() {
-    console.log(this.state.bookData);
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -46,20 +57,17 @@ class MainPage extends Component {
           <div>
             <BooksRendringComponent
               heading={"Currently Reading"}
-              book={this.state.bookData}
-              conditionalText={"currentlyReading"}
+              book={this.state.currentlyReading}
               updateFunction={this.updateBookShelf}
             />
             <BooksRendringComponent
               heading={"Want To Read"}
-              book={this.state.bookData}
-              conditionalText={"wantToRead"}
+              book={this.state.wantToRead}
               updateFunction={this.updateBookShelf}
             />
             <BooksRendringComponent
               heading={"Read"}
-              book={this.state.bookData}
-              conditionalText={"read"}
+              book={this.state.read}
               updateFunction={this.updateBookShelf}
             />
           </div>
