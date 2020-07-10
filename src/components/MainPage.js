@@ -15,16 +15,9 @@ class MainPage extends Component {
   componentDidMount() {
     API.getAll()
       .then((success) => {
-        let newArray = success.filter(
-          (item) => item.shelf === "currentlyReading"
-        );
-        let newArray2 = success.filter((item) => item.shelf === "wantToRead");
-        let newArray3 = success.filter((item) => item.shelf === "read");
         this.setState((state) => {
           return {
-            currentlyReading: newArray,
-            wantToRead: newArray2,
-            read: newArray3,
+            bookData: success,
           };
         });
       })
@@ -40,12 +33,23 @@ class MainPage extends Component {
     API.update(book, e.target.value)
       .then((success) => {
         debugger;
+
         console.log(success);
       })
       .catch((err) => {
         debugger;
         console.log(err);
       });
+    const updatedBooks = this.state.bookData.map((b) => {
+      if (b.id === book.id) {
+        b.shelf = e.target.value;
+      }
+      return b;
+    });
+
+    this.setState({
+      bookData: updatedBooks,
+    });
   };
   render() {
     return (
@@ -57,18 +61,21 @@ class MainPage extends Component {
           <div>
             <BooksRendringComponent
               heading={"Currently Reading"}
-              book={this.state.currentlyReading}
+              book={this.state.bookData}
               updateFunction={this.updateBookShelf}
+              conditionalText={"currentlyReading"}
             />
             <BooksRendringComponent
               heading={"Want To Read"}
-              book={this.state.wantToRead}
+              book={this.state.bookData}
               updateFunction={this.updateBookShelf}
+              conditionalText={"wantToRead"}
             />
             <BooksRendringComponent
               heading={"Read"}
-              book={this.state.read}
+              book={this.state.bookData}
               updateFunction={this.updateBookShelf}
+              conditionalText={"read"}
             />
           </div>
         </div>

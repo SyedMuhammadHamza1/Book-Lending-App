@@ -32,6 +32,21 @@ class SearchPage extends Component {
         console.log("Error Aya", err);
       });
   };
+  updateBookShelf = (bookId, e) => {
+    debugger;
+    let book = {
+      id: bookId,
+    };
+    API.update(book, e.target.value)
+      .then((success) => {
+        debugger;
+        console.log(success);
+      })
+      .catch((err) => {
+        debugger;
+        console.log(err);
+      });
+  };
   render() {
     console.log(this.state.bookData, "Data");
     return (
@@ -52,7 +67,12 @@ class SearchPage extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <BooksRendringComponent heading={""} book={this.state.bookData} />
+          <BooksRendringComponent
+            heading={""}
+            book={this.state.bookData}
+            updateFunction={this.updateBookShelf}
+            conditionalText={"search"}
+          />
         </div>
       </div>
     );
