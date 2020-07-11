@@ -1,57 +1,18 @@
 import React, { Component } from "react";
 import * as API from "../BooksAPI";
 import BooksRendringComponent from "./BooksRendringComponent";
+import { Link } from "react-router-dom";
 
 class MainPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       bookData: [],
-      currentlyReading: [],
-      wantToRead: [],
-      read: [],
     };
   }
-  componentDidMount() {
-    API.getAll()
-      .then((success) => {
-        this.setState((state) => {
-          return {
-            bookData: success,
-          };
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  updateBookShelf = (bookId, e) => {
-    debugger;
-    let book = {
-      id: bookId,
-    };
-    API.update(book, e.target.value)
-      .then((success) => {
-        debugger;
 
-        console.log(success);
-      })
-      .catch((err) => {
-        debugger;
-        console.log(err);
-      });
-    const updatedBooks = this.state.bookData.map((b) => {
-      if (b.id === book.id) {
-        b.shelf = e.target.value;
-      }
-      return b;
-    });
-
-    this.setState({
-      bookData: updatedBooks,
-    });
-  };
   render() {
+    const { heading, book, resetsearch, updateFunction } = this.props;
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -61,28 +22,28 @@ class MainPage extends Component {
           <div>
             <BooksRendringComponent
               heading={"Currently Reading"}
-              book={this.state.bookData}
-              updateFunction={this.updateBookShelf}
+              book={book}
+              updateFunction={updateFunction}
               conditionalText={"currentlyReading"}
             />
             <BooksRendringComponent
               heading={"Want To Read"}
-              book={this.state.bookData}
-              updateFunction={this.updateBookShelf}
+              book={book}
+              updateFunction={updateFunction}
               conditionalText={"wantToRead"}
             />
             <BooksRendringComponent
               heading={"Read"}
-              book={this.state.bookData}
-              updateFunction={this.updateBookShelf}
+              book={book}
+              updateFunction={updateFunction}
               conditionalText={"read"}
             />
           </div>
         </div>
         <div className="open-search">
-          <button onClick={() => this.setState({ showSearchPage: true })}>
-            Add a book
-          </button>
+          <Link to="/search">
+            <button onClick={() => resetsearch()}>Add a book</button>
+          </Link>
         </div>
       </div>
     );

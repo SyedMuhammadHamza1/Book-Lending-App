@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import * as API from "../BooksAPI";
 import BooksRendringComponent from "./BooksRendringComponent";
+import { Link } from "react-router-dom";
 
 class SearchPage extends Component {
   constructor(props) {
@@ -9,29 +10,7 @@ class SearchPage extends Component {
       bookData: [],
     };
   }
-  onSearchBook = (e) => {
-    console.log(e.target.value);
-    API.search(e.target.value)
-      .then((success) => {
-        if (success.length > 0) {
-          console.log(success);
-          this.setState((state) => {
-            return { bookData: success };
-          });
-        } else {
-          this.setState({
-            bookData: [],
-          });
-        }
-      })
-      .catch((err) => {
-        debugger;
-        this.setState({
-          bookData: [],
-        });
-        console.log("Error Aya", err);
-      });
-  };
+
   updateBookShelf = (bookId, e) => {
     debugger;
     let book = {
@@ -49,28 +28,26 @@ class SearchPage extends Component {
   };
   render() {
     console.log(this.state.bookData, "Data");
+    const { heading, book, searchFunction, updateFunction } = this.props;
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <button
-            className="close-search"
-            onClick={() => this.setState({ showSearchPage: false })}
-          >
-            Close
-          </button>
+          <Link to="/">
+            <button className="close-search">Close</button>
+          </Link>
           <div className="search-books-input-wrapper">
             <input
               type="text"
               placeholder="Search by title or author"
-              onChange={this.onSearchBook}
+              onChange={(e) => searchFunction(e)}
             />
           </div>
         </div>
         <div className="search-books-results">
           <BooksRendringComponent
             heading={""}
-            book={this.state.bookData}
-            updateFunction={this.updateBookShelf}
+            book={book}
+            updateFunction={updateFunction}
             conditionalText={"search"}
           />
         </div>
