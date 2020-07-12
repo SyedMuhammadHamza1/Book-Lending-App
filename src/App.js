@@ -25,9 +25,7 @@ class BooksApp extends React.Component {
   }
   updateBookShelf = (bookId, e) => {
     API.update(bookId, e.target.value)
-      .then((success) => {
-        console.log(success);
-      })
+      .then((success) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -43,11 +41,9 @@ class BooksApp extends React.Component {
     });
   };
   onSearchBook = (e) => {
-    console.log(e.target.value);
     API.search(e.target.value)
       .then((success) => {
         if (success.length > 0) {
-          console.log(success);
           this.setState((state) => {
             return { searchBook: success };
           });
