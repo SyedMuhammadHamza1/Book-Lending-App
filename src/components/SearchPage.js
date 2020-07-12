@@ -10,25 +10,23 @@ class SearchPage extends Component {
       bookData: [],
     };
   }
-
-  updateBookShelf = (bookId, e) => {
-    debugger;
-    let book = {
-      id: bookId,
-    };
-    API.update(book, e.target.value)
-      .then((success) => {
-        debugger;
-        console.log(success);
-      })
-      .catch((err) => {
-        debugger;
-        console.log(err);
-      });
-  };
   render() {
-    console.log(this.state.bookData, "Data");
-    const { heading, book, searchFunction, updateFunction } = this.props;
+    const {
+      heading,
+      book,
+      searchFunction,
+      updateFunction,
+      previousBooks,
+    } = this.props;
+    const updatedBooks = book.map((book) => {
+      previousBooks.map((b) => {
+        if (b.id === book.id) {
+          book.shelf = b.shelf;
+        }
+        return b;
+      });
+      return book;
+    });
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -46,7 +44,7 @@ class SearchPage extends Component {
         <div className="search-books-results">
           <BooksRendringComponent
             heading={""}
-            book={book}
+            book={updatedBooks}
             updateFunction={updateFunction}
             conditionalText={"search"}
           />

@@ -97,6 +97,7 @@ class BooksApp extends React.Component {
               book={this.state.searchBook}
               updateFunction={this.updateBookShelf}
               searchFunction={this.onSearchBook}
+              previousBooks={this.state.bookData}
             />
           )}
         />
