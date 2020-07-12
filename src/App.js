@@ -24,22 +24,15 @@ class BooksApp extends React.Component {
       });
   }
   updateBookShelf = (bookId, e) => {
-    debugger;
-    let book = {
-      id: bookId,
-    };
-    API.update(book, e.target.value)
+    API.update(bookId, e.target.value)
       .then((success) => {
-        debugger;
-
         console.log(success);
       })
       .catch((err) => {
-        debugger;
         console.log(err);
       });
     const updatedBooks = this.state.bookData.map((b) => {
-      if (b.id === book.id) {
+      if (b.id === bookId.id) {
         b.shelf = e.target.value;
       }
       return b;
@@ -65,7 +58,6 @@ class BooksApp extends React.Component {
         }
       })
       .catch((err) => {
-        debugger;
         this.setState({
           searchBook: [],
         });
@@ -73,7 +65,6 @@ class BooksApp extends React.Component {
       });
   };
   resetSearch = () => {
-    debugger;
     this.setState({ searchBook: [] });
   };
   render() {

@@ -1,7 +1,6 @@
 import React from "react";
 const BooksRendringComponent = (props) => {
   const { heading, book, conditionalText, updateFunction } = props;
-  console.log(book);
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{heading}</h2>
@@ -34,7 +33,7 @@ const BooksRendringComponent = (props) => {
                         <div className="book-shelf-changer">
                           <select
                             value={item.shelf}
-                            onChange={(e) => updateFunction(item.id, e)}
+                            onChange={(e) => updateFunction(item, e)}
                           >
                             <option value="move" disabled>
                               Move to...
@@ -89,7 +88,7 @@ const BooksRendringComponent = (props) => {
                         <div className="book-shelf-changer">
                           <select
                             value={"shelf" in item ? item.shelf : "none"}
-                            onChange={(e) => updateFunction(item.id, e)}
+                            onChange={(e) => updateFunction(item, e)}
                           >
                             <option value="move" disabled>
                               Move to...
