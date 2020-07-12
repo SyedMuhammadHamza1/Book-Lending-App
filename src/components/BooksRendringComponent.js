@@ -88,7 +88,7 @@ const BooksRendringComponent = (props) => {
                         />
                         <div className="book-shelf-changer">
                           <select
-                            value={item.shelf}
+                            value={"shelf" in item ? item.shelf : "none"}
                             onChange={(e) => updateFunction(item.id, e)}
                           >
                             <option value="move" disabled>
