@@ -6,11 +6,11 @@ import SearchBox from "./SearchBox";
 const SearchPage = (props) => {
   const { book, searchFunction, updateFunction, previousBooks } = props;
   const updatedBooks = book.map((book) => {
-    previousBooks.map((b) => {
-      if (b.id === book.id) {
-        book.shelf = b.shelf;
+    previousBooks.map((pb) => {
+      if (pb.id === book.id) {
+        book.shelf = pb.shelf;
       }
-      return b;
+      return pb;
     });
     return book;
   });
