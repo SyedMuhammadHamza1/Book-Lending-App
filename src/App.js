@@ -24,17 +24,13 @@ class BooksApp extends React.Component {
       });
   }
   updateBookShelf = (bookId, e) => {
-    API.update(bookId, e.target.value)
-      .then((success) => {})
-      .catch((err) => {
-        console.log(err);
-      });
-    const updatedBooks = this.state.bookData.map((b) => {
-      if (b.id === bookId.id) {
-        b.shelf = e.target.value;
-      }
-      return b;
-    });
+    API.update(bookId, e.target.value);
+
+    let updatedBooks = [];
+    updatedBooks = this.state.bookData.filter((b) => b.id !== bookId.id);
+
+    bookId.shelf = e.target.value;
+    updatedBooks = updatedBooks.concat(bookId);
 
     this.setState({
       bookData: updatedBooks,
